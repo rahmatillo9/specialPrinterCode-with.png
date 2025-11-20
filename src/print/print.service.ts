@@ -12,7 +12,7 @@ dotenv.config();
 
 @Injectable()
 export class PrintService {
-  private readonly API_URL = "http://192.168.1.45:5500";
+  private readonly API_URL = process.env.BEST_URL;
   private readonly TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1NzU3NTA4NzgxLCJleHAiOjE3NTc1OTUxODF9.WMtgua3T6eoJvTLQjCG5Q_BgKQMCtsU8f86E9Ai0GA8';
 
   constructor(private readonly http: HttpService) {}
@@ -267,7 +267,7 @@ async printCustomerCheckSocket(check: any): Promise<string> {
 
     stream.on('finish', async () => {
       try {
-        await print(pdfPath, { printer: 'XP-80C' }); // o‘zingiznikiga moslashtiring
+        await print(pdfPath, { printer: process.env.CUSTOMER_PRINTER }); // o‘zingiznikiga moslashtiring
         fs.unlinkSync(pdfPath);
         console.log('✅ Yangi formatdagi chek chiqarildi!');
         resolve('✅ Chek muvaffaqiyatli chiqdi!');

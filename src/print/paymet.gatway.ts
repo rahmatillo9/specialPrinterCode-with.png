@@ -13,8 +13,9 @@ export class PaymentsClientGateway implements OnModuleInit {
 
   onModuleInit() {
     // 🔗 Asosiy serverga ulanamiz (5503/payment)
-this.socket = io("http://192.168.1.45:5503/payment", {
+this.socket = io(`${process.env.BEST_URL}/payment`, {
   transports: ["websocket"],
+  path: "/payment"
 });
 
 
