@@ -150,15 +150,15 @@ async printCustomerCheckSocket(check: any): Promise<string> {
     doc.pipe(stream);
 
     // ====================== LOGO ======================
-    const logoPath = join(process.cwd(), 'public', 'logo.png');
-    if (fs.existsSync(logoPath)) {
-      doc.image(logoPath, {
-        fit: [140, 100],
-        align: 'center',
-        valign: 'center',
-      });
-      doc.moveDown(1);
-    }
+    // const logoPath = join(process.cwd(), 'public', 'logo.png');
+    // if (fs.existsSync(logoPath)) {
+    //   doc.image(logoPath, {
+    //     fit: [140, 100],
+    //     align: 'center',
+    //     valign: 'center',
+    //   });
+    //   doc.moveDown(1);
+    // }
 
     // ====================== RESTORAN NOMI ======================
     doc.fontSize(20).font(boldFont).text("Super Ofitsiant", { align: "center" });
@@ -229,13 +229,15 @@ async printCustomerCheckSocket(check: any): Promise<string> {
     doc.moveTo(15, doc.y).lineTo(255, doc.y).lineWidth(2).stroke();
     doc.moveDown(0.8);
 
+        if (check.serviceFee > 0) {
+      doc.moveDown(0.5);
+      doc.fontSize(12).text(`Xizmat haqi (10%): ${Number(check.serviceFee).toLocaleString()} so‘m`, { align: "center" });
+    }
+
     const totalText = `JAMI: ${Number(check.paidAmount || check.totalAmount).toLocaleString()} so‘m`;
     doc.fontSize(18).font(boldFont).text(totalText, { align: "center" });
 
-    if (check.serviceFee > 0) {
-      doc.moveDown(0.5);
-      doc.fontSize(12).text(`Xizmat haqi: ${Number(check.serviceFee).toLocaleString()} so‘m`, { align: "center" });
-    }
+
 
     doc.moveDown(2);
 
@@ -243,20 +245,20 @@ async printCustomerCheckSocket(check: any): Promise<string> {
 
 
     // ====================== QR KOD ======================
-    const qrUrl = `http://192.168.1.45:3000/ru/payments/check/${check.id}`;
-    const qrBuffer = QRCode.imageSync(qrUrl, { type: 'png', size: 5, margin: 2 });
+    // const qrUrl = `https://so.plow.uz/ru/payments/check/${check.id}`;
+    // const qrBuffer = QRCode.imageSync(qrUrl, { type: 'png', size: 5, margin: 2 });
 
-    doc.image(qrBuffer, {
-      fit: [140, 140],
-      align: 'center',
-      valign: 'center',
-    });
+    // doc.image(qrBuffer, {
+    //   fit: [140, 140],
+    //   align: 'center',
+    //   valign: 'center',
+    // });
 
-    doc.moveDown(0.7);
-    doc.fontSize(11).text("Chekni telefoningizda ko‘rish uchun", { align: "center" });
-    doc.fontSize(12).font(boldFont).text("QR-kodni skanerlang", { align: "center" });
+    // doc.moveDown(0.7);
+    // doc.fontSize(11).text("Chekni telefoningizda ko‘rish uchun", { align: "center" });
+    // doc.fontSize(12).font(boldFont).text("QR-kodni skanerlang", { align: "center" });
 
-    doc.moveDown(2);
+    // doc.moveDown(2);
 
     // ====================== RAHMAT MATNI ======================
     doc.fontSize(16).font(boldFont).text("RAHMAT!", { align: "center" });
